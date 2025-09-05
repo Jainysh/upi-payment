@@ -1,103 +1,157 @@
-import Image from "next/image";
+'use client'
+
+import { useState, FormEvent, ChangeEvent } from 'react';
+import './styles.css';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [formData, setFormData] = useState({
+    name: '',
+    mobile: ''
+  })
+  const [errors, setErrors] = useState({
+    name: false,
+    mobile: false
+  })
+  const [isLoading, setIsLoading] = useState(false)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    
+    if (name === 'mobile') {
+      // Only allow numbers and limit to 10 digits
+      const numericValue = value.replace(/[^0-9]/g, '').slice(0, 10)
+      setFormData(prev => ({ ...prev, [name]: numericValue }))
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }))
+    }
+
+    // Clear error when user starts typing
+    setErrors(prev => ({ ...prev, [name]: false }))
+  }
+
+  const validateName = (): boolean => {
+    const isValid = formData.name.trim().length >= 2
+    setErrors(prev => ({ ...prev, name: !isValid }))
+    return isValid
+  }
+
+  const validateMobile = (): boolean => {
+    const mobilePattern = /^[0-9]{10}$/
+    const isValid = mobilePattern.test(formData.mobile)
+    setErrors(prev => ({ ...prev, mobile: !isValid }))
+    return isValid
+  }
+
+  const generateUPIUrl = (name: string, mobile: string): string => {
+    const payee = 'yyert@okupi'
+    const amount = '500'
+    const description = `${name}-${mobile}`
+    
+    return `upi://pay?pa=${payee}&am=${amount}&tn=${encodeURIComponent(description)}&cu=INR`
+  }
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+
+    const isNameValid = validateName()
+    const isMobileValid = validateMobile()
+
+    if (!isNameValid || !isMobileValid) {
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      const upiUrl = generateUPIUrl(formData.name.trim(), formData.mobile.trim())
+      
+      // Simulate processing time
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      // Try to open UPI app
+      window.location.href = upiUrl
+      
+    } catch (error) {
+      console.error('Payment initiation failed:', error)
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 2000)
+    }
+  }
+
+  const handlePayment = (e: FormEvent) => {
+     e.preventDefault();
+
+                const isNameValid = validateName();
+                const isMobileValid = validateMobile();
+
+                if (!isNameValid || !isMobileValid) {
+                    return;
+                }
+
+                // Show loading state
+                setIsLoading(true)
+                
+
+                // Create UPI payment URL
+                const upiUrl = generateUPIUrl(formData.name.trim(), formData.mobile.trim());
+
+                // Simulate processing time
+                setTimeout(() => {
+                    // Try to open UPI app
+                    window.location.href = upiUrl;
+
+                    // Reset button after attempting to open UPI app
+                    setTimeout(() => {
+                        setIsLoading(false);
+                    }, 2000);
+                }, 1000);
+  }
+
+
+
+  return (
+    <div className="container">
+        <div className="header">
+            <h1>💳 UPI Payment</h1>
+            <p>Enter your details to proceed with payment</p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        <div className="payment-info">
+            <div className="payment-amount">₹500</div>
+            <div className="payment-to">Paying to: yjain2025@okaxis</div>
+        </div>
+
+        <form id="paymentForm">
+            <div className="form-group">
+                <label htmlFor="name">Full Name *</label>
+                <input onChange={handleInputChange} type="text" id="name" name="name" required placeholder="Enter your full name" />
+                <div className="error" id="nameError">Please enter your name</div>
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="mobile">Mobile Number *</label>
+                <input onChange={handleInputChange} type="tel" id="mobile" name="mobile" required placeholder="Enter your 10-digit mobile number" pattern="[0-9]{10}" maxLength="10" />
+                <div className="error" id="mobileError">Please enter a valid 10-digit mobile number</div>
+            </div>
+
+            <button disabled={isLoading}  onClick={handlePayment} className="pay-button" id="payButton">
+                <span className="button-text">Pay Now with UPI</span>
+                <div className="loading" id="loading"></div>
+            </button>
+        </form>
+
+        <div className="upi-apps">
+            <p>Supports all major UPI apps</p>
+            <div className="app-icons">
+                <div className="app-icon">GPay</div>
+                <div className="app-icon">PhonePe</div>
+                <div className="app-icon">Paytm</div>
+                <div className="app-icon">BHIM</div>
+                <div className="app-icon">Amazon</div>
+            </div>
+        </div>
     </div>
-  );
+  )
 }
