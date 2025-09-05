@@ -43,7 +43,7 @@ export default function Home() {
   }
 
   const generateUPIUrl = (name: string, mobile: string): string => {
-    const payee = process.env.PAYEE_UPI_ID;
+    const payee = 'yjain2025@okaxis';
     const amount = '500'
     const description = `${name}-${mobile}-chickpet`
     
@@ -120,7 +120,7 @@ export default function Home() {
 
         <div className="payment-info">
             <div className="payment-amount">₹500</div>
-            <div className="payment-to">Paying to: {process.env.PAYEE_UPI_ID}</div>
+            <div className="payment-to">Paying to: yjain2025@okaxis</div>
         </div>
 
         <form id="paymentForm">
