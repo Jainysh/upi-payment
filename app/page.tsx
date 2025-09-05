@@ -44,7 +44,7 @@ export default function Home() {
 
   const generateUPIUrl = (name: string, mobile: string): string => {
     const payee = 'yjain2025@okaxis';
-    const amount = '500'
+    const amount = '300'
     const description = `${name}-${mobile}-chickpet`
     
     return `upi://pay?pa=${payee}&am=${amount}&tn=${encodeURIComponent(description)}&cu=INR`
@@ -119,7 +119,7 @@ export default function Home() {
         </div>
 
         <div className="payment-info">
-            <div className="payment-amount">₹500</div>
+            <div className="payment-amount">₹300</div>
             <div className="payment-to">Paying to: yjain2025@okaxis</div>
         </div>
 
