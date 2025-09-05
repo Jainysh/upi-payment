@@ -43,8 +43,8 @@ export default function Home() {
   }
 
   const generateUPIUrl = (name: string, mobile: string): string => {
-    const payee = 'yjain2025@okaxis';
-    const amount = '300'
+    const payee = process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT;
+    const amount = process.env.NEXT_PUBLIC_PAYMENT_AMOUNT;
     const description = `${name}-${mobile}-chickpet`
     
     return `upi://pay?pa=${payee}&am=${amount}&tn=${encodeURIComponent(description)}&cu=INR`
@@ -119,8 +119,8 @@ export default function Home() {
         </div>
 
         <div className="payment-info">
-            <div className="payment-amount">₹300</div>
-            <div className="payment-to">Paying to: yjain2025@okaxis</div>
+            <div className="payment-amount">₹{process.env.NEXT_PUBLIC_PAYMENT_AMOUNT}</div>
+            <div className="payment-to">Paying to: {process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT}</div>
         </div>
 
         <form id="paymentForm">
