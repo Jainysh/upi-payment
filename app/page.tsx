@@ -132,7 +132,7 @@ export default function Home() {
 
             <div className="form-group">
                 <label htmlFor="mobile">Mobile Number *</label>
-                <input onChange={handleInputChange} type="tel" id="mobile" name="mobile" required placeholder="Enter your 10-digit mobile number" pattern="[0-9]{10}" maxLength="10" />
+                <input onChange={handleInputChange} type="tel" id="mobile" name="mobile" required placeholder="Enter your 10-digit mobile number" pattern="[0-9]{10}" maxLength={10} />
                 <div className="error" id="mobileError">Please enter a valid 10-digit mobile number</div>
             </div>
 
