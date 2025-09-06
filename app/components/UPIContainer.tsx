@@ -1,14 +1,12 @@
 import { Button } from "@mui/material";
 
 interface UPIContainerProps {
-  isLoading: boolean;
   openSpecificUPIApp: (scheme: string) => Promise<void>;
   name: string;
   mobile: string;
 }
 
 export const UPIContainer = ({
-  isLoading,
   openSpecificUPIApp,
   name,
   mobile,
@@ -72,7 +70,6 @@ export const UPIContainer = ({
             variant="contained"
             // fullWidth
             onClick={() => openSpecificUPIApp(app.scheme)}
-            disabled={isLoading}
             // sx={{ mt: 2 }}
           >
             {app.name}
@@ -83,7 +80,6 @@ export const UPIContainer = ({
         variant="contained"
         fullWidth
         onClick={() => openSpecificUPIApp("upi://pay")}
-        disabled={isLoading}
         sx={{ mt: 1 }}
       >
         Any other UPI app
