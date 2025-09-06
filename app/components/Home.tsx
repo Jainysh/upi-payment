@@ -290,7 +290,7 @@ export const Home = () => {
           />
           {errors.age && (
             <div className="error" id="ageError">
-              Please enter a valid age
+              Please enter a valid age between 15 and 35
             </div>
           )}
         </div>
