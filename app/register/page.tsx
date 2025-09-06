@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { UPIContainer } from "./components/UPIContainer";
+import EventDetails from "./components/EventDetails";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -135,35 +136,35 @@ export default function RegisterPage() {
     }
   };
 
-  const showManualOptions = (upiUrl: string) => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    const isAndroid = userAgent.includes("android");
-    const isIOS = userAgent.includes("iphone") || userAgent.includes("ipad");
+  // const showManualOptions = (upiUrl: string) => {
+  //   const userAgent = navigator.userAgent.toLowerCase();
+  //   const isAndroid = userAgent.includes("android");
+  //   const isIOS = userAgent.includes("iphone") || userAgent.includes("ipad");
 
-    let message = "Choose your preferred UPI app to complete the payment:\n\n";
+  //   let message = "Choose your preferred UPI app to complete the payment:\n\n";
 
-    if (isAndroid) {
-      message += "📱 Android Users:\n";
-      message += "• Google Pay\n";
-      message += "• PhonePe\n";
-      message += "• Paytm\n";
-      message += "• BHIM\n";
-      message += "• Amazon Pay\n\n";
-      message += `If no app opens automatically, please copy the UPI ID: ${process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT}`;
-    } else if (isIOS) {
-      message += "📱 iOS Users:\n";
-      message += "• Google Pay\n";
-      message += "• PhonePe\n";
-      message += "• Paytm\n\n";
-      message += `If no app opens, please use any UPI app with ID: ${process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT}`;
-    } else {
-      message += "💻 Desktop Users:\n";
-      message += `Please scan QR code or use UPI ID: ${process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT}\n`;
-      message += `Amount: ₹${process.env.NEXT_PUBLIC_PAYMENT_AMOUNT}`;
-    }
+  //   if (isAndroid) {
+  //     message += "📱 Android Users:\n";
+  //     message += "• Google Pay\n";
+  //     message += "• PhonePe\n";
+  //     message += "• Paytm\n";
+  //     message += "• BHIM\n";
+  //     message += "• Amazon Pay\n\n";
+  //     message += `If no app opens automatically, please copy the UPI ID: ${process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT}`;
+  //   } else if (isIOS) {
+  //     message += "📱 iOS Users:\n";
+  //     message += "• Google Pay\n";
+  //     message += "• PhonePe\n";
+  //     message += "• Paytm\n\n";
+  //     message += `If no app opens, please use any UPI app with ID: ${process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT}`;
+  //   } else {
+  //     message += "💻 Desktop Users:\n";
+  //     message += `Please scan QR code or use UPI ID: ${process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT}\n`;
+  //     message += `Amount: ₹${process.env.NEXT_PUBLIC_PAYMENT_AMOUNT}`;
+  //   }
 
-    alert(message);
-  };
+  //   alert(message);
+  // };
 
   const openSpecificUPIApp = async (scheme: string) => {
     const payee = process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT;
@@ -223,7 +224,7 @@ export default function RegisterPage() {
       // openUPIApp(upiUrl);
     } catch (error) {
       console.error("Payment initiation failed:", error);
-      showManualOptions("");
+      // showManualOptions("");
     } finally {
       setTimeout(() => {
         setIsLoading(false);
@@ -242,36 +243,10 @@ export default function RegisterPage() {
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          <Typography component="span">See Event Details</Typography>
+          <Typography component="span">Event Details</Typography>
         </AccordionSummary>
-        <AccordionDetails>
-          <b>Organized by</b> <br />
-          Sri Adinath Jain Shwetamber Sangh, Chickpet, Bangalore <br />
-          <span style={{ textAlign: "center" }}>in coordination with</span>{" "}
-          <br />
-          Sri Vasupujya Jain Shwetamber Sangh, Akkipet <br />
-          Sri Ajitnath Jain Shwetamber Sangh, Nagarthpet
-          <hr />
-          <b>Venue</b>
-          <br />
-          Sohan Hall, Sri Adinath Jain Shwetamber Mandir, Chickpet, Bangalore.
-          <Button
-            variant="contained"
-            color="primary"
-            href="https://goo.gl/maps/3m3zUu8f6rP2"
-            target="_blank"
-            style={{ marginTop: "10px" }}
-          >
-            View on Google Maps
-          </Button>
-          <br />
-          <b>Date</b>
-          <br />
-          27th September to 05 October
-          <br />
-          <b>Time</b>
-          <br />
-          6.15 am to 8.00 am
+        <AccordionDetails sx={{ padding: 0 }}>
+          <EventDetails />
         </AccordionDetails>
       </Accordion>
       <h2 className="highlight">💳 Registration</h2>
