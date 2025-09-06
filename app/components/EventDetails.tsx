@@ -15,7 +15,7 @@ export default function EventDetails() {
       sx={{
         display: "flex",
         justifyContent: "center",
-        p: 2,
+        p: 1,
         background: "linear-gradient(to bottom, #fffdf7, #fdf6e3)",
       }}
     >
@@ -29,11 +29,11 @@ export default function EventDetails() {
           border: "1px solid #e0c97f",
         }}
       >
-        <CardContent sx={{ textAlign: "center", p: 4 }}>
+        <CardContent sx={{ textAlign: "center", p: 3 }}>
           {/* Organized by */}
           <Typography
             variant="h6"
-            sx={{ fontWeight: "bold", color: "#b58900", mb: 2 }}
+            sx={{ fontWeight: "bold", color: "#b58900", mb: 1 }}
           >
             Organized by
           </Typography>
@@ -54,7 +54,7 @@ export default function EventDetails() {
             Sri Ajitnath Jain Shwetamber Sangh, Nagarthpet
           </Typography>
 
-          <Divider sx={{ my: 3, borderColor: "#e0c97f" }} />
+          <Divider sx={{ my: 2, borderColor: "#e0c97f" }} />
 
           {/* Venue */}
           <Typography
@@ -63,25 +63,23 @@ export default function EventDetails() {
           >
             Venue
           </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
+          <Typography variant="body1" sx={{ mb: 1 }}>
             Sohan Hall, Sri Adinath Jain Shwetamber Mandir, Chickpet, Bangalore
           </Typography>
           <Button
             variant="contained"
+            fullWidth
             href="https://maps.app.goo.gl/LZDCzJC832NzszP66"
             target="_blank"
             sx={{
               backgroundColor: "#d4af37",
               color: "#fff",
               borderRadius: 3,
-              px: 3,
-              py: 1,
+
               textTransform: "none",
               fontWeight: "bold",
-              "&:hover": {
-                backgroundColor: "#b9972f",
-              },
-              mb: 3,
+
+              mb: 2,
             }}
           >
             View on Google Maps
@@ -94,7 +92,7 @@ export default function EventDetails() {
           >
             Date
           </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
+          <Typography variant="body1" sx={{ mb: 1 }}>
             27th September to 05 October
           </Typography>
           {/* Date */}
@@ -104,7 +102,7 @@ export default function EventDetails() {
           >
             Registration Fees
           </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
+          <Typography variant="body1" sx={{ mb: 1 }}>
             ₹300/-
           </Typography>
 

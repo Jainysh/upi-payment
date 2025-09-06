@@ -13,6 +13,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { UPIContainer } from "./components/UPIContainer";
 import EventDetails from "./components/EventDetails";
+import { Header } from "./components/Header";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -231,10 +232,7 @@ export default function RegisterPage() {
   };
   return (
     <div className="container">
-      <header className="header">
-        <h1>Camp on Self Defence</h1>
-        <h3>By a team of Expert Trainers</h3>
-      </header>
+      <Header />
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
