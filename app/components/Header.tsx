@@ -1,8 +1,18 @@
 "use client";
 
 import { Box, Typography, Container } from "@mui/material";
+import { useEffect, useState } from "react";
 
 export const Header = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null; // or a placeholder that matches server HTML
+  }
   return (
     <Box
       component="header"
