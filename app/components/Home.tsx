@@ -5,10 +5,10 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  Grid,
   Modal,
   Typography,
 } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import { UPIContainer } from "./UPIContainer";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import EventDetails from "./EventDetails";
