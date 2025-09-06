@@ -385,20 +385,27 @@ export const Home = () => {
           textAlign="center"
           sx={{
             fontWeight: "bold",
-            mb: 2,
+            mb: 1,
             color: "#b58900",
           }}
         >
           Contact Us
         </Typography>
 
-        <Grid container spacing={1} justifyContent="center">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+            alignItems: "center",
+          }}
+        >
           {contacts.map((contact, idx) => (
-            <Grid item xs={12} sm={6} md={4} key={idx}>
+            <Box key={idx}>
               <ContactCard name={contact.name} phone={contact.phone} />
-            </Grid>
+            </Box>
           ))}
-        </Grid>
+        </Box>
       </Box>
       <Modal
         open={open}
