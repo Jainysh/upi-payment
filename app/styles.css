@@ -23,8 +23,28 @@ body {
 
 /* Header */
 .header {
-  text-align: center;
+  display: flex;
+  align-items: center;
   margin-bottom: 20px;
+
+  .logo-container {
+    flex: 1;
+
+    .logo {
+      width: 100%;
+    }
+  }
+
+  .header-text {
+    flex: 3;
+    text-align: left;
+    padding-left: 8px;
+
+    h4 {
+      color: #6b2f1f; /* maroon accent */
+      margin-top: 2px;
+    }
+  }
 }
 
 .main-title {
