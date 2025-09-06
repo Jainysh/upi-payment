@@ -5,6 +5,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Grid,
   Modal,
   Typography,
 } from "@mui/material";
@@ -12,6 +13,13 @@ import { UPIContainer } from "./UPIContainer";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import EventDetails from "./EventDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ContactCard from "./ContactDetails";
+
+const contacts = [
+  { name: "Yash Bhai", phone: "919049778749" },
+  { name: "Praveen Bhai", phone: "919741123113" },
+  { name: "Dhiraj Bhai", phone: "919686299142" },
+];
 
 export const Home = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -365,6 +373,33 @@ export const Home = () => {
           </div>
         )}
       </form>
+
+      <Box
+        sx={{
+          p: 2,
+          my: 2,
+          background: "linear-gradient(to bottom, #fffdf7, #fdf6e3)",
+        }}
+      >
+        <Typography
+          textAlign="center"
+          sx={{
+            fontWeight: "bold",
+            mb: 2,
+            color: "#b58900",
+          }}
+        >
+          Contact Us
+        </Typography>
+
+        <Grid container spacing={1} justifyContent="center">
+          {contacts.map((contact, idx) => (
+            <Grid item xs={12} sm={6} md={4} key={idx}>
+              <ContactCard name={contact.name} phone={contact.phone} />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
       <Modal
         open={open}
         onClose={handleClose}
