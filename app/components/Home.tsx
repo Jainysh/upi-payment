@@ -8,10 +8,18 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import { UPIContainer } from "./UPIContainer";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import EventDetails from "./EventDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ContactCard from "./ContactDetails";
+
+const contacts = [
+  { name: "Yash Bhai", phone: "919049778749" },
+  { name: "Praveen Bhai", phone: "919741123113" },
+  { name: "Dhiraj Bhai", phone: "919686299142" },
+];
 
 export const Home = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -365,6 +373,40 @@ export const Home = () => {
           </div>
         )}
       </form>
+
+      <Box
+        sx={{
+          p: 2,
+          my: 2,
+          background: "linear-gradient(to bottom, #fffdf7, #fdf6e3)",
+        }}
+      >
+        <Typography
+          textAlign="center"
+          sx={{
+            fontWeight: "bold",
+            mb: 1,
+            color: "#b58900",
+          }}
+        >
+          Contact Us
+        </Typography>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+            alignItems: "center",
+          }}
+        >
+          {contacts.map((contact, idx) => (
+            <Box key={idx}>
+              <ContactCard name={contact.name} phone={contact.phone} />
+            </Box>
+          ))}
+        </Box>
+      </Box>
       <Modal
         open={open}
         onClose={handleClose}
