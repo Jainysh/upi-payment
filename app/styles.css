@@ -5,310 +5,176 @@
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+  font-family: "Merriweather", serif;
+  background: #faf9f6; /* calm, temple-like white */
+  color: #333;
+  padding: 16px;
 }
 
+/* Container */
 .container {
-  background: white;
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  width: 100%;
-  max-width: 450px;
-  animation: slideUp 0.6s ease-out;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
+/* Header */
 .header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
-.header h1 {
-  color: #333;
-  font-size: 2.2em;
+.main-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #6b2f1f; /* maroon accent */
+  margin-bottom: 10px;
+}
+
+.sub-title {
+  font-size: 1rem;
+  color: #444;
+  margin: 8px 0;
+}
+
+.highlight {
+  font-size: 1.2rem;
+  color: #b45309; /* warm gold */
+  margin-top: 15px;
+}
+
+.event-dates,
+.event-time {
   font-weight: 600;
-  margin-bottom: 8px;
+  color: #444;
+  margin: 6px 0;
 }
 
-.header p {
-  color: #666;
-  font-size: 16px;
-}
-
-.payment-info {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 30px;
+.venue {
   text-align: center;
-}
-
-.payment-amount {
-  font-size: 2.5em;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.payment-to {
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-.form-group {
-  margin-bottom: 25px;
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  color: #333;
+  font-size: 0.95rem;
   font-weight: 500;
-  font-size: 14px;
+  margin-bottom: 20px;
+  color: #6b2f1f;
 }
 
-input {
-  width: 100%;
-  padding: 15px;
-  border: 2px solid #e1e5e9;
-  border-radius: 12px;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  background: #fafbfc;
+.error {
+  color: #b91c1c;
+  font-size: 0.8rem;
+  margin-top: 4px;
 }
 
-input:focus {
-  outline: none;
-  border-color: #667eea;
-  background: white;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-input:valid {
-  border-color: #28a745;
-}
-
+/* Pay Button */
 .pay-button {
   width: 100%;
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  background: linear-gradient(90deg, #b45309, #d97706);
   color: white;
-  border: none;
-  padding: 18px;
-  border-radius: 12px;
-  font-size: 18px;
+  padding: 14px;
+  font-size: 1rem;
   font-weight: 600;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  position: relative;
-  overflow: hidden;
+  transition: all 0.2s ease;
+  margin-top: 10px;
 }
 
 .pay-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3);
-}
-
-.pay-button:active {
-  transform: translateY(0);
+  box-shadow: 0 6px 12px rgba(180, 83, 9, 0.3);
 }
 
 .pay-button:disabled {
   background: #ccc;
   cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
 }
 
-.error {
-  color: #dc3545;
-  font-size: 14px;
-  margin-top: 5px;
-  display: none;
+/* Status */
+.status-box {
+  margin: 12px 0;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
 }
 
-.upi-apps {
+.status-success {
+  background: #ecfdf5;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+
+.status-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+}
+
+/* UPI Section */
+.upi-container {
   margin-top: 20px;
   text-align: center;
 }
 
-.upi-apps p {
-  color: #666;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-.app-icons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.app-icon {
-  /* width: 40px; */
-  height: 40px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: bold;
-  color: #666;
-  border: 2px solid #e9ecef;
-  padding: 0 8px;
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 30px 25px;
-    margin: 10px;
-  }
-
-  .header h1 {
-    font-size: 1.8em;
-  }
-
-  .payment-amount {
-    font-size: 2em;
-  }
-}
-
-.loading {
-  display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 20px;
-  height: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: white;
-  animation: spin 1s ease-in-out infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-/* Container */
-.upi-container {
-  margin-top: 1.5rem; /* mt-6 */
-  text-align: center;
-}
-
-/* Subtitle */
 .upi-text {
-  color: #4b5563; /* text-gray-600 */
-  font-size: 0.875rem; /* text-sm */
-  margin-bottom: 0.75rem; /* mb-3 */
+  color: #555;
+  font-size: 0.9rem;
+  margin: 8px 0;
 }
 
-/* Grid Layout */
 .upi-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem; /* gap-3 */
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
-/* Common Button Styles */
 .upi-button {
   color: white;
-  padding: 0.75rem 1rem; /* py-3 px-4 */
-  border-radius: 0.5rem; /* rounded-lg */
-  font-size: 0.875rem; /* text-sm */
-  font-weight: 500; /* font-medium */
-  transition: all 0.2s ease-in-out;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: transform 0.2s ease;
 }
 
 .upi-button:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-.upi-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 /* Gradient Colors */
 .googlepay {
-  background: linear-gradient(to right, #3b82f6, #22c55e); /* blue-500 → green-500 */
+  background: linear-gradient(to right, #3b82f6, #22c55e);
 }
-
 .phonepe {
-  background: linear-gradient(to right, #9333ea, #7e22ce); /* purple-500 → purple-600 */
+  background: linear-gradient(to right, #9333ea, #7e22ce);
 }
-
 .paytm {
-  background: linear-gradient(to right, #2563eb, #06b6d4); /* blue-600 → cyan-500 */
+  background: linear-gradient(to right, #2563eb, #06b6d4);
 }
-
 .bhim {
-  background: linear-gradient(to right, #f97316, #ef4444); /* orange-500 → red-500 */
-}
-
-/* Copy Button */
-.upi-copy-container {
-  margin-top: 1rem; /* mt-4 */
+  background: linear-gradient(to right, #f97316, #ef4444);
 }
 
 .upi-copy-button {
-  color: #4f46e5; /* indigo-600 */
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-decoration: underline;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6b2f1f;
   background: none;
   border: none;
   cursor: pointer;
+  text-decoration: underline;
 }
 
-.upi-copy-button:hover {
-  color: #3730a3; /* indigo-800 */
-}
-
-/* Common Box Styling */
-.status-box {
-  margin-top: 1rem;        /* mt-4 */
-  padding: 0.75rem;        /* p-3 */
-  border-radius: 0.5rem;   /* rounded-lg */
-  font-size: 0.875rem;     /* text-sm */
-  font-weight: 500;        /* font-medium */
-  border: 1px solid transparent; /* base border */
-}
-
-/* Success State */
-.status-success {
-  background-color: #dcfce7; /* bg-green-100 */
-  color: #15803d;            /* text-green-700 */
-  border-color: #bbf7d0;      /* border-green-200 */
-}
-
-/* Error State */
-.status-error {
-  background-color: #fee2e2; /* bg-red-100 */
-  color: #b91c1c;            /* text-red-700 */
-  border-color: #fecaca;     /* border-red-200 */
+/* Responsive */
+@media (min-width: 768px) {
+  .main-title {
+    font-size: 1.8rem;
+  }
+  .container {
+    padding: 30px;
+  }
 }
