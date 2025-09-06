@@ -14,6 +14,30 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { UPIContainer } from "./components/UPIContainer";
 import EventDetails from "./components/EventDetails";
 import { Header } from "./components/Header";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Camp on Self Defence",
+  description:
+    "Join our camp on self defence conducted by expert trainers at Sri Adinath Jain Mandir, Chickpet, Bangalore",
+  openGraph: {
+    title: "Camp on Self Defence",
+    description:
+      "Join our camp on self defence conducted by expert trainers at Sri Adinath Jain Mandir, Chickpet, Bangalore",
+    url: "https://payment.yashjain.xyz",
+    siteName: "Sri Adinath Jain Sangh",
+    images: [
+      {
+        url: "https://payment.yashjain.xyz/assets/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Camp on Self Defence",
+      },
+    ],
+    locale: "en_IN",
+    type: "website",
+  },
+};
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({

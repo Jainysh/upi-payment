@@ -48,7 +48,6 @@ export const Header = () => {
             alt="Sri Adinath Shwetambar Jain Sangh"
             sx={{
               width: { xs: 90, md: 120 },
-              boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
             }}
           />
         </Box>
