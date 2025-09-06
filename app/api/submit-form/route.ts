@@ -49,6 +49,8 @@ export async function POST(request: NextRequest) {
       Age: age,
       Area: area,
       Gender: gender,
+      "Manual Payment Verification Status": "Pending",
+      "Whatsapp Confirmation Status": "Pending",
       Timestamp: new Date().toLocaleString("en-IN", {
         timeZone: "Asia/Kolkata",
         year: "numeric",
