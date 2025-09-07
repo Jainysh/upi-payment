@@ -72,10 +72,9 @@ export const Header = () => {
               fontWeight: "bold",
             }}
           >
-            Camp on Self Defence
+            Shibir
           </Typography>
-          <Typography
-            // variant="h6"
+          {/* <Typography
             sx={{
               color: "#b58900",
               fontStyle: "italic",
@@ -84,7 +83,7 @@ export const Header = () => {
             }}
           >
             By a team of Expert Trainers
-          </Typography>
+          </Typography> */}
         </Box>
       </Container>
     </Box>

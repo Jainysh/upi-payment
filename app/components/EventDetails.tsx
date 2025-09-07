@@ -40,7 +40,7 @@ export default function EventDetails() {
           <Typography variant="body1" sx={{ mb: 1 }}>
             Sri Adinath Jain Shwetamber Sangh, Chickpet, Bangalore
           </Typography>
-          <Typography
+          {/* <Typography
             variant="body1"
             sx={{ fontStyle: "italic", color: "text.secondary", mb: 1 }}
           >
@@ -52,7 +52,7 @@ export default function EventDetails() {
           <Typography variant="body1">&</Typography>
           <Typography variant="body1" sx={{ mb: 2 }}>
             Sri Ajitnath Jain Shwetamber Sangh, Nagarthpet
-          </Typography>
+          </Typography> */}
 
           <Divider sx={{ my: 2, borderColor: "#e0c97f" }} />
 
@@ -103,7 +103,7 @@ export default function EventDetails() {
             Registration Fees
           </Typography>
           <Typography variant="body1" sx={{ mb: 1 }}>
-            ₹300/-
+            ₹{process.env.NEXT_PUBLIC_SHIBIR_PAYMENT_AMOUNT}/-
           </Typography>
 
           {/* Time */}

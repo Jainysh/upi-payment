@@ -14,7 +14,7 @@ export const UPIContainer = ({
   const copyUPIDetails = async () => {
     const upiId = process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT || "";
     const details = `UPI ID: ${upiId}\nAmount: ₹${
-      process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT
+      process.env.NEXT_PUBLIC_SHIBIR_PAYMENT_AMOUNT
     }\nDescription: ${name.trim()}-${mobile.trim()}`;
 
     try {
@@ -38,7 +38,7 @@ export const UPIContainer = ({
       } catch (fallbackErr) {
         alert(
           `UPI ID: ${upiId}\nAmount: ₹${
-            process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT
+            process.env.NEXT_PUBLIC_SHIBIR_PAYMENT_AMOUNT
           }\nDescription: ${name.trim()}-${mobile.trim()}\n\nPlease copy this UPI ID manually.`
         );
       }
