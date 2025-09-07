@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     });
 
     const doc = new GoogleSpreadsheet(
-      process.env.GOOGLE_SHEETS_SHEET_ID!,
+      process.env.SHIBIR_GOOGLE_SHEETS_SHEET_ID!,
       serviceAccountAuth
     );
 

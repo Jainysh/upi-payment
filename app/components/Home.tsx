@@ -35,7 +35,6 @@ export const Home = () => {
     alternateMobile: "",
     age: "",
     area: "",
-    gender: "Male",
     termsAndConditions: false,
   });
   const [termsModalOpen, setTermsModalOpen] = useState(false);
@@ -44,7 +43,6 @@ export const Home = () => {
     mobile: false,
     age: false,
     area: false,
-    gender: false,
     termsAndConditions: false,
   });
   const [open, setOpen] = useState(false);
@@ -116,8 +114,7 @@ export const Home = () => {
     mobile: string,
     alternateNumber: string,
     age: string,
-    area: string,
-    gender: string
+    area: string
   ): Promise<boolean> => {
     try {
       const response = await fetch("/api/submit-form", {
@@ -131,7 +128,6 @@ export const Home = () => {
           alternateNumber,
           age,
           area,
-          gender,
         }),
       });
 
@@ -162,8 +158,8 @@ export const Home = () => {
   };
 
   const openSpecificUPIApp = async (scheme: string) => {
-    const payee = process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT;
-    const amount = process.env.NEXT_PUBLIC_PAYMENT_AMOUNT;
+    const payee = process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT;
+    const amount = process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT;
     const description = `${formData.name.trim()}-${formData.mobile.trim()}`;
 
     const specificUrl = `${scheme}?pa=${payee}&am=${amount}&tn=${encodeURIComponent(
@@ -207,8 +203,7 @@ export const Home = () => {
         formData.mobile.trim(),
         formData.alternateMobile.trim(),
         formData.age.trim(),
-        formData.area.trim(),
-        formData.gender.trim()
+        formData.area.trim()
       );
 
       if (!dataSaved) {
@@ -320,44 +315,6 @@ export const Home = () => {
           {errors.area && (
             <div className="error" id="areaError">
               Please enter a valid area
-            </div>
-          )}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="gender">Gender *</label>
-          <div className="flex-row">
-            <div className="button-feel">
-              <input
-                type="radio"
-                id="male"
-                name="gender"
-                value="Male"
-                checked={formData.gender === "Male"}
-                onChange={handleInputChange}
-              />
-              <label className="no-margin" htmlFor="male">
-                Male
-              </label>
-            </div>
-
-            <div className="button-feel">
-              <input
-                type="radio"
-                id="female"
-                name="gender"
-                value="Female"
-                checked={formData.gender === "Female"}
-                onChange={handleInputChange}
-              />
-              <label className="no-margin" htmlFor="female">
-                Female
-              </label>
-            </div>
-          </div>
-          {errors.gender && (
-            <div className="error" id="genderError">
-              Please select a gender
             </div>
           )}
         </div>
@@ -486,10 +443,10 @@ export const Home = () => {
           )}
           <section className="payment-info">
             <div className="payment-amount">
-              ₹{process.env.NEXT_PUBLIC_PAYMENT_AMOUNT}
+              ₹{process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT}
             </div>
             <div className="payment-to">
-              Paying to: {process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT}
+              Paying to: {process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT}
             </div>
           </section>
           <UPIContainer
