@@ -5,15 +5,16 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Link,
   Modal,
   Typography,
 } from "@mui/material";
-import Grid from "@mui/material/Grid";
 import { UPIContainer } from "./UPIContainer";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import EventDetails from "./EventDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ContactCard from "./ContactDetails";
+import TermsModal from "./TermsAndConditions";
 
 const contacts = [
   { name: "Yash Bhai", phone: "919049778749" },
@@ -35,13 +36,16 @@ export const Home = () => {
     age: "",
     area: "",
     gender: "Male",
+    termsAndConditions: false,
   });
+  const [termsModalOpen, setTermsModalOpen] = useState(false);
   const [errors, setErrors] = useState({
     name: false,
     mobile: false,
     age: false,
     area: false,
     gender: false,
+    termsAndConditions: false,
   });
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -98,6 +102,12 @@ export const Home = () => {
   const validateArea = (): boolean => {
     const isValid = formData.area.trim().length >= 2;
     setErrors((prev) => ({ ...prev, area: !isValid }));
+    return isValid;
+  };
+
+  const validateTerms = (): boolean => {
+    const isValid = formData.termsAndConditions;
+    setErrors((prev) => ({ ...prev, termsAndConditions: !isValid }));
     return isValid;
   };
 
@@ -181,7 +191,8 @@ export const Home = () => {
       !validateName() ||
       !validateMobile() ||
       !validateAge() ||
-      !validateArea()
+      !validateArea() ||
+      !validateTerms()
     ) {
       return;
     }
@@ -351,6 +362,39 @@ export const Home = () => {
           )}
         </div>
 
+        <div className="form-group">
+          <div className="flex-row">
+            <input
+              type="checkbox"
+              id="termsAndConditions"
+              name="termsAndConditions"
+              checked={formData.termsAndConditions}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  termsAndConditions: e.target.checked,
+                }))
+              }
+              required
+            />
+            <label className="no-margin" htmlFor="termsAndConditions">
+              By registering to this event, I accept the{" "}
+              <Link
+                component="button"
+                variant="body2"
+                onClick={() => setTermsModalOpen(true)}
+              >
+                Term and Conditions
+              </Link>
+            </label>
+          </div>
+          {errors.termsAndConditions && (
+            <div className="error" id="termsAndConditionsError">
+              Please accept the Term and Conditions
+            </div>
+          )}
+        </div>
+
         <button
           disabled={isLoading}
           onClick={handleSubmit}
@@ -407,6 +451,7 @@ export const Home = () => {
           ))}
         </Box>
       </Box>
+      <TermsModal open={termsModalOpen} setOpen={setTermsModalOpen} />
       <Modal
         open={open}
         onClose={handleClose}
