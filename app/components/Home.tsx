@@ -159,7 +159,7 @@ export const Home = () => {
 
   const openSpecificUPIApp = async (scheme: string) => {
     const payee = process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT;
-    const amount = process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT;
+    const amount = process.env.NEXT_PUBLIC_SHIBIR_PAYMENT_AMOUNT;
     const description = `${formData.name.trim()}-${formData.mobile.trim()}`;
 
     const specificUrl = `${scheme}?pa=${payee}&am=${amount}&tn=${encodeURIComponent(
@@ -443,7 +443,7 @@ export const Home = () => {
           )}
           <section className="payment-info">
             <div className="payment-amount">
-              ₹{process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT}
+              ₹{process.env.NEXT_PUBLIC_SHIBIR_PAYMENT_AMOUNT}
             </div>
             <div className="payment-to">
               Paying to: {process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT}
