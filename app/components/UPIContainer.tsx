@@ -12,9 +12,9 @@ export const UPIContainer = ({
   mobile,
 }: UPIContainerProps) => {
   const copyUPIDetails = async () => {
-    const upiId = process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT || "";
+    const upiId = process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT || "";
     const details = `UPI ID: ${upiId}\nAmount: ₹${
-      process.env.NEXT_PUBLIC_PAYMENT_AMOUNT
+      process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT
     }\nDescription: ${name.trim()}-${mobile.trim()}`;
 
     try {
@@ -38,7 +38,7 @@ export const UPIContainer = ({
       } catch (fallbackErr) {
         alert(
           `UPI ID: ${upiId}\nAmount: ₹${
-            process.env.NEXT_PUBLIC_PAYMENT_AMOUNT
+            process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT
           }\nDescription: ${name.trim()}-${mobile.trim()}\n\nPlease copy this UPI ID manually.`
         );
       }
@@ -91,7 +91,7 @@ export const UPIContainer = ({
         onClick={copyUPIDetails}
         className="upi-copy-button"
       >
-        Copy UPI ({process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT})
+        Copy UPI ({process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT})
       </Button>
     </div>
   );

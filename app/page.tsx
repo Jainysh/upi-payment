@@ -28,36 +28,6 @@ export const metadata: Metadata = {
 };
 
 export default function RegisterPage() {
-  // const showManualOptions = (upiUrl: string) => {
-  //   const userAgent = navigator.userAgent.toLowerCase();
-  //   const isAndroid = userAgent.includes("android");
-  //   const isIOS = userAgent.includes("iphone") || userAgent.includes("ipad");
-
-  //   let message = "Choose your preferred UPI app to complete the payment:\n\n";
-
-  //   if (isAndroid) {
-  //     message += "📱 Android Users:\n";
-  //     message += "• Google Pay\n";
-  //     message += "• PhonePe\n";
-  //     message += "• Paytm\n";
-  //     message += "• BHIM\n";
-  //     message += "• Amazon Pay\n\n";
-  //     message += `If no app opens automatically, please copy the UPI ID: ${process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT}`;
-  //   } else if (isIOS) {
-  //     message += "📱 iOS Users:\n";
-  //     message += "• Google Pay\n";
-  //     message += "• PhonePe\n";
-  //     message += "• Paytm\n\n";
-  //     message += `If no app opens, please use any UPI app with ID: ${process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT}`;
-  //   } else {
-  //     message += "💻 Desktop Users:\n";
-  //     message += `Please scan QR code or use UPI ID: ${process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT}\n`;
-  //     message += `Amount: ₹${process.env.NEXT_PUBLIC_PAYMENT_AMOUNT}`;
-  //   }
-
-  //   alert(message);
-  // };
-
   return (
     <div className="container">
       <Header />
