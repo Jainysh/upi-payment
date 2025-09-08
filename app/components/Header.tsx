@@ -2,6 +2,7 @@
 
 import { Box, Typography, Container } from "@mui/material";
 import { useEffect, useState } from "react";
+import { appType } from "../common/helper";
 
 export const Header = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -72,9 +73,11 @@ export const Header = () => {
               fontWeight: "bold",
             }}
           >
-            Shibir
+            {appType() === "self-defence"
+              ? "Camp on Self Defence"
+              : "Dare to be Different"}
           </Typography>
-          {/* <Typography
+          <Typography
             sx={{
               color: "#b58900",
               fontStyle: "italic",
@@ -82,8 +85,10 @@ export const Header = () => {
               fontSize: { xs: 14, md: 16 },
             }}
           >
-            By a team of Expert Trainers
-          </Typography> */}
+            {appType() === "self-defence"
+              ? "By a team of Expert Trainers"
+              : "Dussehara Holiday Shibir at Chickpet, Bengaluru"}
+          </Typography>
         </Box>
       </Container>
     </Box>

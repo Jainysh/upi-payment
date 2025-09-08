@@ -15,6 +15,7 @@ import EventDetails from "./EventDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ContactCard from "./ContactDetails";
 import TermsModal from "./TermsAndConditions";
+import { appType } from "../common/helper";
 
 const contacts = [
   { name: "Yash Bhai", phone: "919049778749" },
@@ -29,14 +30,27 @@ export const Home = () => {
     setIsMounted(true);
   }, []);
 
-  const [formData, setFormData] = useState({
+  const shibirFormDefaults = {
     name: "",
     mobile: "",
     alternateMobile: "",
     age: "",
     area: "",
     termsAndConditions: false,
-  });
+  };
+  const defenceCampFormDefaults = { ...shibirFormDefaults, gender: "Male" };
+
+  const [formData, setFormData] = useState<{
+    name: string;
+    mobile: string;
+    alternateMobile: string;
+    age: string;
+    area: string;
+    termsAndConditions: boolean;
+    gender?: string;
+  }>(
+    appType() === "self-defence" ? defenceCampFormDefaults : shibirFormDefaults
+  );
   const [termsModalOpen, setTermsModalOpen] = useState(false);
   const [errors, setErrors] = useState({
     name: false,
@@ -44,6 +58,7 @@ export const Home = () => {
     age: false,
     area: false,
     termsAndConditions: false,
+    gender: false,
   });
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -114,21 +129,27 @@ export const Home = () => {
     mobile: string,
     alternateNumber: string,
     age: string,
-    area: string
+    area: string,
+    gender?: string
   ): Promise<boolean> => {
     try {
+      let body: { [key: string]: string } = {
+        name,
+        mobile,
+        alternateNumber,
+        age,
+        area,
+        eventType: appType(),
+      };
+      if (appType() === "self-defence" && gender) {
+        body = { ...body, gender };
+      }
       const response = await fetch("/api/submit-form", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name,
-          mobile,
-          alternateNumber,
-          age,
-          area,
-        }),
+        body: JSON.stringify(body),
       });
 
       const result = await response.json();
@@ -137,7 +158,8 @@ export const Home = () => {
         setSubmitStatus({
           type: "success",
           message: `Please proceed with the payment.
-          We will verify it offline and send you a confirmation on Whatsapp once done.`,
+          We will verify it offline and send you a confirmation on Whatsapp once done.
+          Your details are saved successfully!`,
         });
         return true;
       } else {
@@ -158,8 +180,16 @@ export const Home = () => {
   };
 
   const openSpecificUPIApp = async (scheme: string) => {
-    const payee = process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT;
-    const amount = process.env.NEXT_PUBLIC_SHIBIR_PAYMENT_AMOUNT;
+    const app = appType();
+    const payee =
+      app === "self-defence"
+        ? process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT
+        : process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT;
+    const amount =
+      app === "self-defence"
+        ? process.env.NEXT_PUBLIC_PAYMENT_AMOUNT
+        : process.env.NEXT_PUBLIC_SHIBIR_PAYMENT_AMOUNT;
+
     const description = `${formData.name.trim()}-${formData.mobile.trim()}`;
 
     const specificUrl = `${scheme}?pa=${payee}&am=${amount}&tn=${encodeURIComponent(
@@ -203,7 +233,8 @@ export const Home = () => {
         formData.mobile.trim(),
         formData.alternateMobile.trim(),
         formData.age.trim(),
-        formData.area.trim()
+        formData.area.trim(),
+        appType() === "self-defence" ? formData.gender?.trim() : undefined
       );
 
       if (!dataSaved) {
@@ -319,6 +350,45 @@ export const Home = () => {
           )}
         </div>
 
+        {appType() === "self-defence" && (
+          <div className="form-group">
+            <label htmlFor="gender">Gender *</label>
+            <div className="flex-row">
+              <div className="button-feel">
+                <input
+                  type="radio"
+                  id="male"
+                  name="gender"
+                  value="Male"
+                  checked={formData.gender === "Male"}
+                  onChange={handleInputChange}
+                />
+                <label className="no-margin" htmlFor="male">
+                  Male
+                </label>
+              </div>
+
+              <div className="button-feel">
+                <input
+                  type="radio"
+                  id="female"
+                  name="gender"
+                  value="Female"
+                  checked={formData.gender === "Female"}
+                  onChange={handleInputChange}
+                />
+                <label className="no-margin" htmlFor="female">
+                  Female
+                </label>
+              </div>
+            </div>
+            {errors.gender && (
+              <div className="error" id="genderError">
+                Please select a gender
+              </div>
+            )}
+          </div>
+        )}
         <div className="form-group">
           <div className="flex-row">
             <input
@@ -443,10 +513,16 @@ export const Home = () => {
           )}
           <section className="payment-info">
             <div className="payment-amount">
-              ₹{process.env.NEXT_PUBLIC_SHIBIR_PAYMENT_AMOUNT}
+              ₹
+              {appType() === "self-defence"
+                ? process.env.NEXT_PUBLIC_PAYMENT_AMOUNT
+                : process.env.NEXT_PUBLIC_SHIBIR_PAYMENT_AMOUNT}
             </div>
             <div className="payment-to">
-              Paying to: {process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT}
+              Paying to:{" "}
+              {appType() === "self-defence"
+                ? process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT
+                : process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT}
             </div>
           </section>
           <UPIContainer

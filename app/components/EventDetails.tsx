@@ -8,6 +8,7 @@ import {
   Divider,
   Box,
 } from "@mui/material";
+import { appType } from "../common/helper";
 
 export default function EventDetails() {
   return (
@@ -29,10 +30,10 @@ export default function EventDetails() {
           border: "1px solid #e0c97f",
         }}
       >
-        <CardContent sx={{ textAlign: "center", p: 3 }}>
+        <CardContent sx={{ textAlign: "center", p: 2 }}>
           {/* Organized by */}
           <Typography
-            variant="h6"
+            variant="subtitle1"
             sx={{ fontWeight: "bold", color: "#b58900", mb: 1 }}
           >
             Organized by
@@ -40,19 +41,36 @@ export default function EventDetails() {
           <Typography variant="body1" sx={{ mb: 1 }}>
             Sri Adinath Jain Shwetamber Sangh, Chickpet, Bangalore
           </Typography>
-          {/* <Typography
-            variant="body1"
-            sx={{ fontStyle: "italic", color: "text.secondary", mb: 1 }}
-          >
-            in coordination with
-          </Typography>
-          <Typography variant="body1">
-            Sri Vasupujya Jain Shwetamber Sangh, Akkipet
-          </Typography>
-          <Typography variant="body1">&</Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Sri Ajitnath Jain Shwetamber Sangh, Nagarthpet
-          </Typography> */}
+          {appType() === "self-defence" && (
+            <>
+              <Typography
+                variant="body1"
+                sx={{ fontStyle: "italic", color: "text.secondary", mb: 1 }}
+              >
+                in coordination with
+              </Typography>
+              <Typography variant="body1">
+                Sri Vasupujya Jain Shwetamber Sangh, Akkipet
+              </Typography>
+              <Typography variant="body1">&</Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                Sri Ajitnath Jain Shwetamber Sangh, Nagarthpet
+              </Typography>
+            </>
+          )}
+          {appType() === "shibir" && (
+            <>
+              <Typography
+                variant="subtitle1"
+                sx={{ fontWeight: "bold", color: "#b58900", mb: 1 }}
+              >
+                Pavan Nishra
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 1 }}>
+                DETAIL TO BE ADDED HERE
+              </Typography>
+            </>
+          )}
 
           <Divider sx={{ my: 2, borderColor: "#e0c97f" }} />
 
@@ -64,7 +82,8 @@ export default function EventDetails() {
             Venue
           </Typography>
           <Typography variant="body1" sx={{ mb: 1 }}>
-            Sohan Hall, Sri Adinath Jain Shwetamber Mandir, Chickpet, Bangalore
+            {appType() === "self-defence" && "Sohan Hall,"} Sri Adinath Jain
+            Shwetamber Mandir, Chickpet, Bangalore
           </Typography>
           <Button
             variant="contained"
@@ -103,7 +122,11 @@ export default function EventDetails() {
             Registration Fees
           </Typography>
           <Typography variant="body1" sx={{ mb: 1 }}>
-            ₹{process.env.NEXT_PUBLIC_SHIBIR_PAYMENT_AMOUNT}/-
+            ₹
+            {appType() === "self-defence"
+              ? process.env.NEXT_PUBLIC_PAYMENT_AMOUNT
+              : process.env.NEXT_PUBLIC_SHIBIR_PAYMENT_AMOUNT}
+            /-
           </Typography>
 
           {/* Time */}
@@ -113,7 +136,11 @@ export default function EventDetails() {
           >
             Time
           </Typography>
-          <Typography variant="body1">6:15 am to 8:00 am</Typography>
+          <Typography variant="body1">
+            {appType() === "self-defence"
+              ? "6:15 am to 8:00 am"
+              : "6.15 am to 9.00 pm"}
+          </Typography>
         </CardContent>
       </Card>
     </Box>
