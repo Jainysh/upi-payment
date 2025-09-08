@@ -1,4 +1,6 @@
-import { Button } from "@mui/material";
+import { Button, Divider, Typography } from "@mui/material";
+import { appType } from "../common/helper";
+import ContactCard from "./ContactDetails";
 
 interface UPIContainerProps {
   openSpecificUPIApp: (scheme: string) => Promise<void>;
@@ -12,20 +14,27 @@ export const UPIContainer = ({
   mobile,
 }: UPIContainerProps) => {
   const copyUPIDetails = async () => {
-    const upiId = process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT || "";
-    const details = `UPI ID: ${upiId}\nAmount: ₹${
-      process.env.NEXT_PUBLIC_PAYMENT_AMOUNT
-    }\nDescription: ${name.trim()}-${mobile.trim()}`;
+    const upiId =
+      appType() === "self-defence"
+        ? process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT
+        : process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT;
+
+    const amount =
+      appType() === "self-defence"
+        ? process.env.NEXT_PUBLIC_PAYMENT_AMOUNT
+        : process.env.NEXT_PUBLIC_SHIBIR_PAYMENT_AMOUNT;
+
+    const details = `UPI ID: ${upiId}\nAmount: ₹${amount}\nDescription: ${name.trim()}-${mobile.trim()}`;
 
     try {
-      await navigator.clipboard.writeText(upiId);
+      await navigator.clipboard.writeText(upiId || "");
       alert(
         `UPI details copied to clipboard!\n\n${details}\n\nYou can now paste the UPI ID in any UPI app.`
       );
     } catch (err) {
       // Fallback for browsers that don't support clipboard API
       const textArea = document.createElement("textarea");
-      textArea.value = upiId;
+      textArea.value = upiId || "";
       document.body.appendChild(textArea);
       textArea.focus();
       textArea.select();
@@ -37,9 +46,7 @@ export const UPIContainer = ({
         );
       } catch (fallbackErr) {
         alert(
-          `UPI ID: ${upiId}\nAmount: ₹${
-            process.env.NEXT_PUBLIC_PAYMENT_AMOUNT
-          }\nDescription: ${name.trim()}-${mobile.trim()}\n\nPlease copy this UPI ID manually.`
+          `UPI ID: ${upiId}\nAmount: ₹${amount}\nDescription: ${name.trim()}-${mobile.trim()}\n\nPlease copy this UPI ID manually.`
         );
       }
 
@@ -91,8 +98,27 @@ export const UPIContainer = ({
         onClick={copyUPIDetails}
         className="upi-copy-button"
       >
-        Copy UPI ({process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT})
+        Copy UPI (
+        {appType() === "self-defence"
+          ? process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT
+          : process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT}
+        )
       </Button>
+
+      <Divider sx={{ my: 2, borderColor: "#e0c97f" }} />
+
+      <Typography
+        textAlign="center"
+        sx={{
+          fontWeight: "bold",
+          my: 1,
+          color: "#b58900",
+        }}
+      >
+        Need help with payment?
+      </Typography>
+
+      <ContactCard name={"Yash Bhai"} phone={"919049778749"} />
     </div>
   );
 };

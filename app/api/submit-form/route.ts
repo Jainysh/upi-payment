@@ -4,7 +4,7 @@ import { JWT } from "google-auth-library";
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, mobile, alternateNumber, age, area, gender } =
+    const { name, mobile, alternateNumber, age, area, gender, eventType } =
       await request.json();
 
     // Validate input
@@ -32,7 +32,9 @@ export async function POST(request: NextRequest) {
     });
 
     const doc = new GoogleSpreadsheet(
-      process.env.GOOGLE_SHEETS_SHEET_ID!,
+      eventType === "self-defence"
+        ? process.env.GOOGLE_SHEETS_SHEET_ID!
+        : process.env.SHIBIR_GOOGLE_SHEETS_SHEET_ID!,
       serviceAccountAuth
     );
 
@@ -48,7 +50,7 @@ export async function POST(request: NextRequest) {
       "Alternate Number": alternateNumber?.trim() || "N/A",
       Age: age,
       Area: area,
-      Gender: gender,
+      Gender: gender || "Male",
       "Manual Payment Verification Status": "Pending",
       "Whatsapp Confirmation Status": "Pending",
       "Terms Accepted": "Yes",
