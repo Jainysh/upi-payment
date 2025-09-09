@@ -23,6 +23,12 @@ const contacts = [
   { name: "Dhiraj Bhai", phone: "919686299142" },
 ];
 
+const shibirContacts = [
+  { name: "Naman Bhai", phone: "917019513164" },
+  { name: "Bhavesh Bhai", phone: "918310278103" },
+  // { name: "Dhiraj Bhai", phone: "919686299142" },
+];
+
 export const Home = () => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -471,11 +477,13 @@ export const Home = () => {
             alignItems: "center",
           }}
         >
-          {contacts.map((contact, idx) => (
-            <Box key={idx}>
-              <ContactCard name={contact.name} phone={contact.phone} />
-            </Box>
-          ))}
+          {(appType() === "self-defence" ? contacts : shibirContacts).map(
+            (contact, idx) => (
+              <Box key={idx}>
+                <ContactCard name={contact.name} phone={contact.phone} />
+              </Box>
+            )
+          )}
         </Box>
       </Box>
       <TermsModal open={termsModalOpen} setOpen={setTermsModalOpen} />
