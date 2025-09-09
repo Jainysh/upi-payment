@@ -64,10 +64,14 @@ export default function EventDetails() {
                 variant="subtitle1"
                 sx={{ fontWeight: "bold", color: "#b58900", mb: 1 }}
               >
-                Pavan Nishra
+                Paavan Nishra
               </Typography>
               <Typography variant="body1" sx={{ mb: 1 }}>
-                DETAIL TO BE ADDED HERE
+                P. P. Acharya Sri Abhayshekharsuriji MS ke Shishya <br />
+                Sanskar Premi Yuva Pravachankar Muniraj Sri Aryashekharvijayji
+                MS <br />
+                aur <br />
+                Yuva kranti Pravachankar Muniraj Sri Bhuvanbhushanvijayji MS
               </Typography>
             </>
           )}
