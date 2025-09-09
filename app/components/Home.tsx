@@ -26,7 +26,7 @@ const contacts = [
 const shibirContacts = [
   { name: "Naman Bhai", phone: "917019513164" },
   { name: "Bhavesh Bhai", phone: "918310278103" },
-  // { name: "Dhiraj Bhai", phone: "919686299142" },
+  { name: "Jayesh Bhai", phone: "918722900650" },
 ];
 
 export const Home = () => {
@@ -495,17 +495,18 @@ export const Home = () => {
       >
         <Box
           sx={{
-            position: "absolute",
+            position: "absolute" as const,
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: "90%",
+            maxWidth: 600,
+            maxHeight: "80vh",
             bgcolor: "background.paper",
-            border: "2px solid #000",
             borderRadius: 2,
             boxShadow: 24,
-            p: 4,
-            m: 1,
+            p: 3,
+            overflow: "scroll",
           }}
         >
           {submitStatus.type && (

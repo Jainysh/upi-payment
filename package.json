@@ -16,6 +16,7 @@
     "google-auth-library": "^10.3.0",
     "google-spreadsheet": "^5.0.2",
     "next": "15.5.2",
+    "qrcode.react": "^4.2.0",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
