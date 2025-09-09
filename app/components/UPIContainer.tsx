@@ -1,6 +1,7 @@
 import { Button, Divider, Typography } from "@mui/material";
 import { appType } from "../common/helper";
 import ContactCard from "./ContactDetails";
+import QRGenerator from "./QRContainer";
 
 interface UPIContainerProps {
   openSpecificUPIApp: (scheme: string) => Promise<void>;
@@ -13,6 +14,15 @@ export const UPIContainer = ({
   name,
   mobile,
 }: UPIContainerProps) => {
+  const payee =
+    appType() === "self-defence"
+      ? process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT
+      : process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT;
+  const amount =
+    appType() === "self-defence"
+      ? process.env.NEXT_PUBLIC_PAYMENT_AMOUNT
+      : process.env.NEXT_PUBLIC_SHIBIR_PAYMENT_AMOUNT;
+
   const copyUPIDetails = async () => {
     const upiId =
       appType() === "self-defence"
@@ -55,6 +65,14 @@ export const UPIContainer = ({
   };
   return (
     <div className="upi-container">
+      <QRGenerator
+        value={`upi://pay?pa=${payee}&am=${amount}&tn=${encodeURIComponent(
+          name + "-" + mobile
+        )}&cu=INR`}
+        size={220}
+      />
+      <p className="upi-text">Or</p>
+
       <p className="upi-text">Choose your preferred UPI app</p>
 
       <div className="upi-grid">

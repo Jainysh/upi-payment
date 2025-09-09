@@ -15,7 +15,7 @@ const style = {
   borderRadius: 2,
   boxShadow: 24,
   p: 3,
-  overflow: "hidden",
+  overflow: "scroll",
 };
 
 export default function TermsModal({
