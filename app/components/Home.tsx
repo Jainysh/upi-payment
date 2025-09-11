@@ -111,9 +111,12 @@ export const Home = () => {
     return isValid;
   };
 
+  const MIN_AGE = appType() === "self-defence" ? 15 : 14;
+  const MAX_AGE = appType() === "self-defence" ? 35 : 28;
+
   const validateAge = (): boolean => {
     const ageNum = Number(formData.age);
-    const isValid = ageNum > 14 && ageNum < 36;
+    const isValid = ageNum >= MIN_AGE && ageNum < MAX_AGE;
     setErrors((prev) => ({ ...prev, age: !isValid }));
     return isValid;
   };
@@ -333,7 +336,7 @@ export const Home = () => {
           />
           {errors.age && (
             <div className="error" id="ageError">
-              Please enter a valid age between 15 and 35
+              Please enter a valid age between {MIN_AGE} and {MAX_AGE}
             </div>
           )}
         </div>
@@ -415,7 +418,10 @@ export const Home = () => {
               <Link
                 component="button"
                 variant="body2"
-                onClick={() => setTermsModalOpen(true)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setTermsModalOpen(true);
+                }}
               >
                 Term and Conditions
               </Link>

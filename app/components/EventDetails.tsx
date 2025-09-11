@@ -116,7 +116,9 @@ export default function EventDetails() {
             Date
           </Typography>
           <Typography variant="body1" sx={{ mb: 1 }}>
-            27th September to 05 October
+            {appType() === "self-defence"
+              ? "27th September to 05 October"
+              : "1st October to 5th October"}
           </Typography>
           {/* Date */}
           <Typography
