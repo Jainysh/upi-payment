@@ -123,18 +123,25 @@ export const Home = () => {
   const validateArea = (): boolean => {
     let isAreaValid = true;
     let isCityValid = true;
-    if (appType() === "shibir" && formData.city) {
-      isCityValid = formData.city?.trim().length >= 2;
-      setErrors((prev) => ({ ...prev, city: !isCityValid }));
+    if (appType() === "shibir") {
+      if (formData.city) {
+        isCityValid = formData.city?.trim().length >= 2;
+        setErrors((prev) => ({ ...prev, city: !isCityValid }));
+      } else {
+        setErrors((prev) => ({ ...prev, city: true }));
+        isCityValid = false;
+      }
+
       if (formData.city?.trim() === "Bangalore") {
         isAreaValid = formData.area.trim().length >= 2;
 
         setErrors((prev) => ({ ...prev, area: !isAreaValid }));
       }
+    } else {
+      setErrors((prev) => ({ ...prev, area: !isAreaValid }));
     }
 
-    setErrors((prev) => ({ ...prev, area: !isAreaValid }));
-    return isAreaValid;
+    return isAreaValid && isCityValid;
   };
 
   const validateTerms = (): boolean => {
@@ -226,7 +233,8 @@ export const Home = () => {
         formData.alternateMobile.trim(),
         formData.age.trim(),
         formData.area.trim(),
-        appType() === "self-defence" ? formData.gender?.trim() : undefined
+        appType() === "self-defence" ? formData.gender?.trim() : undefined,
+        appType() === "shibir" ? formData.city?.trim() : undefined
       );
 
       if (!dataSaved) {

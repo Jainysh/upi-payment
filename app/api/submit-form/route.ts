@@ -4,8 +4,16 @@ import { JWT } from "google-auth-library";
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, mobile, alternateNumber, age, area, gender, eventType } =
-      await request.json();
+    const {
+      name,
+      mobile,
+      alternateNumber,
+      age,
+      area,
+      city,
+      gender,
+      eventType,
+    } = await request.json();
 
     // Validate input
     if (!name || !mobile) {
@@ -50,6 +58,7 @@ export async function POST(request: NextRequest) {
       "Alternate Number": alternateNumber?.trim() || "N/A",
       Age: age,
       Area: area,
+      City: eventType === "shibir" ? city?.trim() || "N/A" : "N/A",
       Gender: gender || "Male",
       "Manual Payment Verification Status": "Pending",
       "Whatsapp Confirmation Status": "Pending",
