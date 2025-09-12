@@ -2,6 +2,7 @@
 
 import { Box, Modal, Typography, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { appType } from "../common/helper";
 
 const style = {
   position: "absolute" as const,
@@ -25,6 +26,7 @@ export default function TermsModal({
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
+  const isSelfDefence = appType() === "self-defence";
   return (
     <>
       <Modal open={open} onClose={() => setOpen(false)}>
@@ -51,8 +53,8 @@ export default function TermsModal({
               Eligibility
             </Typography>
             <Typography variant="body2" paragraph>
-              Open to participants aged 15–35. Registration with payment
-              required.
+              Open to participants aged {isSelfDefence ? "15–35" : "14-30"}.
+              Registration with payment required.
             </Typography>
 
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
@@ -66,25 +68,31 @@ export default function TermsModal({
               Health & Safety
             </Typography>
             <Typography variant="body2" paragraph>
-              Participants must be fit to join. Consult a doctor if needed.
-              Organizers are not responsible for injuries or health issues.
+              Participants must be fit to join.{" "}
+              {isSelfDefence
+                ? "Consult a doctor if needed. Organizers are not responsible for injuries or health issues."
+                : "Please share any health related information with organizers."}
             </Typography>
 
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
               Code of Conduct
             </Typography>
             <Typography variant="body2" paragraph>
-              Follow trainer instructions at all times. Misconduct may lead to
-              removal without refund.
+              Follow {isSelfDefence && "trainer"} instructions at all times.
+              Misconduct may lead to removal without refund.
             </Typography>
 
-            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-              Liability
-            </Typography>
-            <Typography variant="body2" paragraph>
-              Participation is at your own risk. Organizers are not liable for
-              loss, damage, or injury.
-            </Typography>
+            {isSelfDefence && (
+              <>
+                <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                  Liability
+                </Typography>
+                <Typography variant="body2" paragraph>
+                  Participation is at your own risk. Organizers are not liable
+                  for loss, damage, or injury.
+                </Typography>
+              </>
+            )}
 
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
               Media Consent
@@ -98,8 +106,9 @@ export default function TermsModal({
               Changes & Cancellations
             </Typography>
             <Typography variant="body2">
-              Organizers may change schedule, venue, or trainers. Fees refunded
-              only if camp is cancelled by organizers.
+              Organizers may change schedule{" "}
+              {isSelfDefence ? ", venue, or trainers" : "or venue."}. Fees
+              refunded only if camp is cancelled by organizers.
             </Typography>
           </Box>
         </Box>

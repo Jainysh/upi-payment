@@ -1,5 +1,6 @@
 "use client";
 
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -9,25 +10,14 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
-import { UPIContainer } from "./UPIContainer";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import EventDetails from "./EventDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+import { UPIContainer } from "./UPIContainer";
+import EventDetails from "./EventDetails";
 import ContactCard from "./ContactDetails";
 import TermsModal from "./TermsAndConditions";
 import { appType } from "../common/helper";
-
-const contacts = [
-  { name: "Yash Bhai", phone: "919049778749" },
-  { name: "Praveen Bhai", phone: "919741123113" },
-  { name: "Dhiraj Bhai", phone: "919686299142" },
-];
-
-const shibirContacts = [
-  { name: "Naman Bhai", phone: "917019513164" },
-  { name: "Bhavesh Bhai", phone: "918310278103" },
-  { name: "Jayesh Bhai", phone: "918722900650" },
-];
+import { DEFENCE_CAMP_CONTACTS, SHIBIT_CONTACTS } from "../common/constants";
 
 export const Home = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -36,7 +26,7 @@ export const Home = () => {
     setIsMounted(true);
   }, []);
 
-  const shibirFormDefaults = {
+  const formDefaults = {
     name: "",
     mobile: "",
     alternateMobile: "",
@@ -44,7 +34,8 @@ export const Home = () => {
     area: "",
     termsAndConditions: false,
   };
-  const defenceCampFormDefaults = { ...shibirFormDefaults, gender: "Male" };
+  const defenceCampFormDefaults = { ...formDefaults, gender: "Male" };
+  const shibirFormDefaults = { ...formDefaults, city: "" };
 
   const [formData, setFormData] = useState<{
     name: string;
@@ -54,6 +45,7 @@ export const Home = () => {
     area: string;
     termsAndConditions: boolean;
     gender?: string;
+    city?: string;
   }>(
     appType() === "self-defence" ? defenceCampFormDefaults : shibirFormDefaults
   );
@@ -65,6 +57,7 @@ export const Home = () => {
     area: false,
     termsAndConditions: false,
     gender: false,
+    city: false,
   });
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -81,12 +74,18 @@ export const Home = () => {
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    if (name === "mobile") {
-      // Only allow numbers and limit to 10 digits
-      const numericValue = value.replace(/[^0-9]/g, "").slice(0, 10);
-      setFormData((prev) => ({ ...prev, [name]: numericValue }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
+    switch (name) {
+      case "mobile":
+        // Only allow numbers and limit to 10 digits
+        const numericValue = value.replace(/[^0-9]/g, "").slice(0, 10);
+        setFormData((prev) => ({ ...prev, [name]: numericValue }));
+        break;
+      case "area":
+        setFormData((prev) => ({ ...prev, [name]: value, city: "Bangalore" }));
+      default:
+        setFormData((prev) => ({ ...prev, [name]: value }));
+
+        break;
     }
 
     // Clear error when user starts typing
@@ -112,19 +111,30 @@ export const Home = () => {
   };
 
   const MIN_AGE = appType() === "self-defence" ? 15 : 14;
-  const MAX_AGE = appType() === "self-defence" ? 35 : 28;
+  const MAX_AGE = appType() === "self-defence" ? 35 : 30;
 
   const validateAge = (): boolean => {
     const ageNum = Number(formData.age);
-    const isValid = ageNum >= MIN_AGE && ageNum < MAX_AGE;
+    const isValid = ageNum >= MIN_AGE && ageNum <= MAX_AGE;
     setErrors((prev) => ({ ...prev, age: !isValid }));
     return isValid;
   };
 
   const validateArea = (): boolean => {
-    const isValid = formData.area.trim().length >= 2;
-    setErrors((prev) => ({ ...prev, area: !isValid }));
-    return isValid;
+    let isAreaValid = true;
+    let isCityValid = true;
+    if (appType() === "shibir" && formData.city) {
+      isCityValid = formData.city?.trim().length >= 2;
+      setErrors((prev) => ({ ...prev, city: !isCityValid }));
+      if (formData.city?.trim() === "Bangalore") {
+        isAreaValid = formData.area.trim().length >= 2;
+
+        setErrors((prev) => ({ ...prev, area: !isAreaValid }));
+      }
+    }
+
+    setErrors((prev) => ({ ...prev, area: !isAreaValid }));
+    return isAreaValid;
   };
 
   const validateTerms = (): boolean => {
@@ -139,7 +149,8 @@ export const Home = () => {
     alternateNumber: string,
     age: string,
     area: string,
-    gender?: string
+    gender?: string,
+    city?: string
   ): Promise<boolean> => {
     try {
       let body: { [key: string]: string } = {
@@ -152,6 +163,9 @@ export const Home = () => {
       };
       if (appType() === "self-defence" && gender) {
         body = { ...body, gender };
+      }
+      if (appType() === "shibir" && city) {
+        body = { ...body, city };
       }
       const response = await fetch("/api/submit-form", {
         method: "POST",
@@ -186,37 +200,6 @@ export const Home = () => {
       });
       return false;
     }
-  };
-
-  const openSpecificUPIApp = async (scheme: string) => {
-    const app = appType();
-    const payee =
-      app === "self-defence"
-        ? process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT
-        : process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT;
-    const amount =
-      app === "self-defence"
-        ? process.env.NEXT_PUBLIC_PAYMENT_AMOUNT
-        : process.env.NEXT_PUBLIC_SHIBIR_PAYMENT_AMOUNT;
-
-    const description = `${formData.name.trim()}-${formData.mobile.trim()}`;
-
-    const specificUrl = `${scheme}?pa=${payee}&am=${amount}&tn=${encodeURIComponent(
-      description
-    )}&cu=INR`;
-
-    // Try to open the specific app
-    window.location.href = specificUrl;
-
-    // Fallback to generic UPI after a delay
-    setTimeout(() => {
-      if (!document.hidden) {
-        const genericUrl = `upi://pay?pa=${payee}&am=${amount}&tn=${encodeURIComponent(
-          description
-        )}&cu=INR`;
-        window.location.href = genericUrl;
-      }
-    }, 2000);
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -342,7 +325,11 @@ export const Home = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="area">Area *</label>
+          <label htmlFor="area">Area</label>
+          <Typography variant="caption" display="block" gutterBottom>
+            (For Bangalore, enter your locality name like Jayanagar, Chickpet,
+            etc. For other cities, this is optional)
+          </Typography>
           <input
             onChange={handleInputChange}
             type="text"
@@ -358,6 +345,26 @@ export const Home = () => {
             </div>
           )}
         </div>
+
+        {appType() === "shibir" && (
+          <div className="form-group">
+            <label htmlFor="area">City *</label>
+            <input
+              onChange={handleInputChange}
+              type="text"
+              id="city"
+              name="city"
+              required
+              value={formData.city || ""}
+              placeholder="Enter your city"
+            />
+            {errors.city && (
+              <div className="error" id="areaError">
+                Please enter a valid city
+              </div>
+            )}
+          </div>
+        )}
 
         {appType() === "self-defence" && (
           <div className="form-group">
@@ -441,7 +448,6 @@ export const Home = () => {
           id="payButton"
         >
           <span className="button-text">Save & Pay with UPI</span>
-          {/* <div className="loading" id="loading"></div> */}
         </button>
 
         {submitStatus.type && (
@@ -483,13 +489,14 @@ export const Home = () => {
             alignItems: "center",
           }}
         >
-          {(appType() === "self-defence" ? contacts : shibirContacts).map(
-            (contact, idx) => (
-              <Box key={idx}>
-                <ContactCard name={contact.name} phone={contact.phone} />
-              </Box>
-            )
-          )}
+          {(appType() === "self-defence"
+            ? DEFENCE_CAMP_CONTACTS
+            : SHIBIT_CONTACTS
+          ).map((contact, idx) => (
+            <Box key={idx}>
+              <ContactCard name={contact.name} phone={contact.phone} />
+            </Box>
+          ))}
         </Box>
       </Box>
       <TermsModal open={termsModalOpen} setOpen={setTermsModalOpen} />
@@ -526,25 +533,7 @@ export const Home = () => {
               {submitStatus.message}
             </div>
           )}
-          <section className="payment-info">
-            <div className="payment-amount">
-              ₹
-              {appType() === "self-defence"
-                ? process.env.NEXT_PUBLIC_PAYMENT_AMOUNT
-                : process.env.NEXT_PUBLIC_SHIBIR_PAYMENT_AMOUNT}
-            </div>
-            <div className="payment-to">
-              Paying to:{" "}
-              {appType() === "self-defence"
-                ? process.env.NEXT_PUBLIC_UPI_PAYEE_ACCOUNT
-                : process.env.NEXT_PUBLIC_SHIBIR_UPI_PAYEE_ACCOUNT}
-            </div>
-          </section>
-          <UPIContainer
-            openSpecificUPIApp={openSpecificUPIApp}
-            name={formData.name}
-            mobile={formData.mobile}
-          />
+          <UPIContainer name={formData.name} mobile={formData.mobile} />
         </Box>
       </Modal>
     </>
