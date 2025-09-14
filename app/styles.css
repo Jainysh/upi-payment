@@ -134,61 +134,6 @@ body {
   color: #b91c1c;
 }
 
-/* UPI Section */
-.upi-container {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.upi-text {
-  color: #555;
-  font-size: 0.9rem;
-  margin: 8px 0;
-}
-
-.upi-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.upi-button {
-  color: white;
-  padding: 12px;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: transform 0.2s ease;
-}
-
-.upi-button:hover {
-  transform: scale(1.05);
-}
-
-/* Gradient Colors */
-.googlepay {
-  background: linear-gradient(to right, #3b82f6, #22c55e);
-}
-.phonepe {
-  background: linear-gradient(to right, #9333ea, #7e22ce);
-}
-.paytm {
-  background: linear-gradient(to right, #2563eb, #06b6d4);
-}
-.bhim {
-  background: linear-gradient(to right, #f97316, #ef4444);
-}
-
-.upi-copy-button {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #6b2f1f;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
 /* Responsive */
 @media (min-width: 768px) {
   .main-title {
@@ -217,27 +162,6 @@ body {
 
 .no-margin {
   margin: 0;
-}
-
-/* Payment Info */
-.payment-info {
-  background: #fef3c7; /* soft saffron */
-  border: 1px solid #fde68a;
-  border-radius: 10px;
-  padding: 15px;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.payment-amount {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #b45309; /* gold */
-}
-
-.payment-to {
-  font-size: 0.9rem;
-  color: #444;
 }
 
 /* Form */

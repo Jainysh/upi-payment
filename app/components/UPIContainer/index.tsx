@@ -1,7 +1,8 @@
 import { Button, Divider, Typography } from "@mui/material";
-import { appType, openSpecificUPIApp } from "../common/helper";
-import ContactCard from "./ContactDetails";
-import QRGenerator from "./QRContainer";
+import { appType, openSpecificUPIApp } from "../../common/helper";
+import ContactCard from "../ContactDetails";
+import QRGenerator from "../QRContainer";
+import "./style.css";
 
 interface UPIContainerProps {
   name: string;
