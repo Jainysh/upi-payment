@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Box, Divider, Typography } from "@mui/material";
+import { Suspense, useEffect, useState } from "react";
+import { Box, Card, Divider, Typography } from "@mui/material";
 
 import { useSearchParams } from "next/navigation";
 import { UPIContainer } from "../components/UPIContainer";
 
-const PaymentsPage = () => {
+const PaymentsContent = () => {
   const searchParams = useSearchParams();
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -85,4 +85,57 @@ const PaymentsPage = () => {
   );
 };
 
+const PaymentsLoading = () => {
+  return (
+    <Box
+      sx={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #f8f6f0 0%, #e8e0d0 100%)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Card
+        sx={{
+          p: 4,
+          background: "linear-gradient(135deg, #fefefe 0%, #f8f6f0 100%)",
+          borderRadius: 4,
+          border: "2px solid #e8d5b7",
+        }}
+      >
+        <Box sx={{ textAlign: "center" }}>
+          <Box
+            sx={{
+              width: 60,
+              height: 4,
+              background: "linear-gradient(90deg, #d4af37, #b8860b)",
+              margin: "0 auto",
+              borderRadius: 2,
+              mb: 2,
+            }}
+          />
+          <Typography
+            variant="h6"
+            sx={{
+              color: "#8b4513",
+              fontWeight: 600,
+            }}
+          >
+            Loading Payment Page...
+          </Typography>
+        </Box>
+      </Card>
+    </Box>
+  );
+};
+
+// Main component with Suspense wrapper
+const PaymentsPage = () => {
+  return (
+    <Suspense fallback={<PaymentsLoading />}>
+      <PaymentsContent />
+    </Suspense>
+  );
+};
 export default PaymentsPage;
