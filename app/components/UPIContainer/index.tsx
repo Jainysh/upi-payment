@@ -82,7 +82,7 @@ export const UPIContainer = ({ name, mobile }: UPIContainerProps) => {
           )}&cu=INR`}
           size={220}
         />
-        <p className="upi-text">Or</p>
+        {/* <p className="upi-text">Or</p>
 
         <p className="upi-text">Choose your preferred UPI app</p>
 
@@ -117,7 +117,7 @@ export const UPIContainer = ({ name, mobile }: UPIContainerProps) => {
           sx={{ mt: 1 }}
         >
           Any other UPI app
-        </Button>
+        </Button> */}
         <p className="upi-text">Or</p>
 
         <Button
