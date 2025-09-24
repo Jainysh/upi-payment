@@ -53,7 +53,7 @@ export default function TermsModal({
               Eligibility
             </Typography>
             <Typography variant="body2" paragraph>
-              Open to participants aged {isSelfDefence ? "15–35" : "14-30"}.
+              Open to participants aged {isSelfDefence ? "15–90" : "14-30"}.
               Registration with payment required.
             </Typography>
 
