@@ -111,7 +111,7 @@ export const Home = () => {
   };
 
   const MIN_AGE = appType() === "self-defence" ? 15 : 14;
-  const MAX_AGE = appType() === "self-defence" ? 35 : 30;
+  const MAX_AGE = appType() === "self-defence" ? 90 : 30;
 
   const validateAge = (): boolean => {
     const ageNum = Number(formData.age);
