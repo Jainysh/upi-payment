@@ -110,7 +110,7 @@ export const Home = () => {
     return isValid;
   };
 
-  const MIN_AGE = appType() === "self-defence" ? 15 : 14;
+  const MIN_AGE = appType() === "self-defence" ? 11 : 14;
   const MAX_AGE = appType() === "self-defence" ? 90 : 30;
 
   const validateAge = (): boolean => {
