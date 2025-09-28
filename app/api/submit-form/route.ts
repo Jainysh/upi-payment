@@ -51,10 +51,34 @@ export async function POST(request: NextRequest) {
     // Get the first sheet
     const sheet = doc.sheetsByIndex[0];
 
-    // Add row to sheet
+    // Load all existing rows to check for duplicates
+    await sheet.loadHeaderRow();
+    const rows = await sheet.getRows();
+
+    // Check if the mobile number already exists
+    const mobileToCheck = mobile.trim();
+    const existingEntry = rows.find((row) => {
+      const existingMobile = row.get("Whatsapp Number");
+      return existingMobile && existingMobile.trim() === mobileToCheck;
+    });
+
+    if (existingEntry) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Duplicate entry",
+          paymentStatus:
+            existingEntry.toObject()?.["Manual Payment Verification Status"],
+          message: `A record with WhatsApp number ${mobileToCheck} already exists`,
+        },
+        { status: 409 } // 409 Conflict status for duplicate
+      );
+    }
+
+    // If no duplicate found, add the new row
     await sheet.addRow({
       Name: name.trim(),
-      "Whatsapp Number": mobile.trim(),
+      "Whatsapp Number": mobileToCheck,
       "Alternate Number": alternateNumber?.trim() || "N/A",
       Age: age,
       Area: area,
@@ -73,6 +97,7 @@ export async function POST(request: NextRequest) {
         second: "2-digit",
       }),
     });
+
     return NextResponse.json(
       {
         success: true,
@@ -87,7 +112,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: "Failed to save data",
-        details: error,
+        details: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 }
     );

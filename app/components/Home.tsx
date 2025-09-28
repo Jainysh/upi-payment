@@ -6,6 +6,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Button,
   Link,
   Modal,
   Typography,
@@ -60,6 +61,10 @@ export const Home = () => {
     city: false,
   });
   const [open, setOpen] = useState(false);
+  const [showDuplicateEntryModal, setShowDuplicateEntryModal] = useState({
+    show: false,
+    paymentStatus: false,
+  });
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -183,6 +188,21 @@ export const Home = () => {
       });
 
       const result = await response.json();
+      if (result.error === "Duplicate entry") {
+        let errorText = `We have already received entry with ${mobile} number.`;
+        if (result.paymentStatus?.toLowerCase() !== "done") {
+          errorText += ` Payment for this registration is pending.`;
+        }
+        setSubmitStatus({
+          type: "error",
+          message: errorText,
+        });
+        setShowDuplicateEntryModal({
+          show: true,
+          paymentStatus: result.paymentStatus?.toLowerCase() === "done",
+        });
+        return false;
+      }
 
       if (response.ok) {
         setSubmitStatus({
@@ -334,10 +354,12 @@ export const Home = () => {
 
         <div className="form-group">
           <label htmlFor="area">Area</label>
-          <Typography variant="caption" display="block" gutterBottom>
-            (For Bangalore, enter your locality name like Jayanagar, Chickpet,
-            etc. For other cities, this is optional)
-          </Typography>
+          {appType() === "shibir" && (
+            <Typography variant="caption" display="block" gutterBottom>
+              (For Bangalore, enter your locality name like Jayanagar, Chickpet,
+              etc. For other cities, this is optional)
+            </Typography>
+          )}
           <input
             onChange={handleInputChange}
             type="text"
@@ -508,6 +530,82 @@ export const Home = () => {
         </Box>
       </Box>
       <TermsModal open={termsModalOpen} setOpen={setTermsModalOpen} />
+      <Modal
+        open={showDuplicateEntryModal.show}
+        onClose={() =>
+          setShowDuplicateEntryModal({ show: false, paymentStatus: false })
+        }
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute" as const,
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "90%",
+            maxWidth: 600,
+            maxHeight: "80vh",
+            bgcolor: "background.paper",
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 3,
+            overflow: "scroll",
+          }}
+        >
+          {submitStatus.type && (
+            <div
+              className={`status-box ${
+                submitStatus.type === "success"
+                  ? "status-success"
+                  : "status-error"
+              }`}
+            >
+              {submitStatus.message}
+            </div>
+          )}
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+              flexDirection: { xs: "row", sm: "row" },
+            }}
+          >
+            <Button
+              onClick={() =>
+                setShowDuplicateEntryModal({
+                  show: false,
+                  paymentStatus: false,
+                })
+              }
+              size="small"
+              variant={
+                showDuplicateEntryModal.paymentStatus ? "contained" : "outlined"
+              }
+              fullWidth={showDuplicateEntryModal.paymentStatus}
+            >
+              Change number
+            </Button>
+            {!showDuplicateEntryModal.paymentStatus && (
+              <Button
+                size="small"
+                onClick={() => {
+                  setShowDuplicateEntryModal({
+                    show: false,
+                    paymentStatus: false,
+                  });
+                  setSubmitStatus({ type: null, message: "" });
+                  handleOpen();
+                }}
+                variant="contained"
+              >
+                Make Payment
+              </Button>
+            )}
+          </Box>
+        </Box>
+      </Modal>
       <Modal
         open={open}
         onClose={handleClose}
