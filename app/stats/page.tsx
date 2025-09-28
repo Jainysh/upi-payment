@@ -485,7 +485,7 @@ const StatsContent: React.FC = () => {
               color: "#5d4037",
             }}
           >
-            Data is updated manually in window of 24 hours.
+            Payment data is usually updated manually in window of 24 hours.
           </Alert>
 
           <Typography

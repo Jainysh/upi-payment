@@ -24,7 +24,10 @@ export async function GET(request: NextRequest) {
     await doc.loadInfo();
 
     // Get sheet2 (index 1) for cleaned data
-    const sheet = doc.sheetsByIndex[1];
+    const sheet =
+      eventType === "self-defence"
+        ? doc.sheetsByIndex[1]
+        : doc.sheetsByIndex[0];
 
     if (!sheet) {
       return NextResponse.json({ error: "Sheet2 not found" }, { status: 404 });
